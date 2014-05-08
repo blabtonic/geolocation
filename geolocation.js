@@ -3,7 +3,7 @@ var map;
 function init() {
 	//Google map settings (zoom level, map type etc.)
 	var mapOptions = {
-		zoom : 16,
+		zoom : 15,
 		disableDefaultUI : true,
 		mapTypeId : google.maps.MapTypeId.ROADMAP
 	};
@@ -21,31 +21,55 @@ function detectLocation() {
 	//check if the browser supports geolocation
 	if (window.navigator.geolocation) {
 		//get current position
-		window.navigator.geolocation.getCurrentPosition(drawLocationOnMap, handleGeoloacteError, options);
+		window.navigator.geolocation.getCurrentPosition(markMyLocation, handleGeoloacteError, options);
 	} else {
 		alert("Sorry");
 	}
 };
-//callback function of getCurrentPosition(), pinpoints location
-//on Google map
-function drawLocationOnMap(position) {
-	//get latitude/longitude from Position object
+
+function markMyLocation(position) {
+	//latitude, longitude of current position
 	var lat = position.coords.latitude;
 	var lon = position.coords.longitude;
-	var msg = "You are here: Latitude " + lat + ", Longitude " + lon;
-	//mark current location on Google map
+	var msg = "You are here";
 	var pos = new google.maps.LatLng(lat, lon);
+	map.setCenter(pos);
 	var infoBox = new google.maps.InfoWindow({
 		map : map,
 		position : pos,
 		content : msg
 	});
-	map.setCenter(pos);
+	//draw a google map marker on current position
+	var myMarker = new google.maps.Marker({
+		map : map,
+		position : pos
+	});
+	getNearbyTimmys(lat, lon);
 	return;
 }
 
 function handleGeoloacteError() {
-	alert("Sorry, no location found");
+	alert("Not able to get your geolocation");
 }
 
-window.onload = init; 
+function getNearbyTimmys(lat, lon) {
+	//sends Ajax request to nearby Tim Hortons
+	$.ajax({
+		url : 'query.php?lat=' + lat + '&lon=' + lon,
+		dataType : 'json',
+		success : ajaxSuccess
+	});
+}
+
+function ajaxSuccess(data) {
+	//callback function for Ajax marks each Tim Horton on map
+	data.forEach(function(timHorton) {
+		var pos = new google.maps.LatLng(timHorton.latitude, timHorton.longitude);
+		var marker = new google.maps.Marker({
+			map : map,
+			position : pos
+		});
+	});
+}
+
+window.onload = init;
