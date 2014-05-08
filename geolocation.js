@@ -21,7 +21,7 @@ function detectLocation() {
 	//check if the browser supports geolocation
 	if (window.navigator.geolocation) {
 		//get current position
-		window.navigator.geolocation.getCurrentPosition(markMyLocation, handleGeoloacteError, options);
+		window.navigator.geolocation.getCurrentPosition(markMyLocation, handleGeolocateError, options);
 	} else {
 		alert("Sorry");
 	}
@@ -48,7 +48,7 @@ function markMyLocation(position) {
 	return;
 }
 
-function handleGeoloacteError() {
+function handleGeolocateError() {
 	alert("Not able to get your geolocation");
 }
 
