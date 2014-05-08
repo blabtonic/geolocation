@@ -1,0 +1,4 @@
+{ "_id" : { "$oid" : "536ae1f96311e3d175073bce" }, "address" : "281 Richvale Drive", "location" : [ 43.71966, -79.77328 ] }
+{ "_id" : { "$oid" : "536ae1f96311e3d175073bcf" }, "address" : "15 Bovaird Drive", "location" : [ 43.70647, -79.78605 ] }
+{ "_id" : { "$oid" : "536ae1f96311e3d175073bd0" }, "address" : "156 Sandalwood Parkway", "location" : [ 43.72628, -79.79577999999999 ] }
+{ "_id" : { "$oid" : "536ae1f96311e3d175073bd1" }, "address" : "675 Main Street", "location" : [ 43.705, -79.78634 ] }
